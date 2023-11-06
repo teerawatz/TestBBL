@@ -27,29 +27,10 @@ async function main() {
                 name:value.name,
                 username: value.username,
                 email: value.email,
-                address: {
-                    create:{
-                    street: value.address.street,
-                    suite: value.address.suite,
-                    city: value.address.city,
-                    zipcode: value.address.zipcode,
-                    geo: {
-                        create:{
-                            lat: value.address.geo.lat,
-                            lng: value.address.geo.lng
-                        }
-                    }
-                    }
-                },
+                address: value.address,
                 phone: value.phone,
                 website: value.website,
-                company: {
-                    create:{
-                    name: value.company.name,
-                    catchPhrase: value.company.catchPhrase,
-                    bs: value.company.bs
-                    }
-                }
+                company: value.company
             }
         });
         console.log(user)

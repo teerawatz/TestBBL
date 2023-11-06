@@ -26,6 +26,7 @@ interface User {
     phone: string;
     email: string;
     website: string;
+    address:string;
     street: string;
     suite: string;
     city: string;

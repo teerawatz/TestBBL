@@ -23,24 +23,7 @@ app.get('/', (req: Request, res: Response) => {
 //get all resource
 app.get('/users', async (req: Request, res: Response) => {
   const users = await prisma.user.findMany({
-    include: {
-      //post: true,
-      address:{
-        select: {
-          street:true,
-          suite:true,
-          city:true, 
-          zipcode:true,
-          geo:{
-            select:{
-              lat:true,
-              lng:true
-            }
-          }
-        }
-      },
-      company:true
-    },
+    
   })
   res.json(users)
 })
@@ -49,24 +32,6 @@ app.get('/users', async (req: Request, res: Response) => {
 app.get("/users/:id", async (req: Request, res: Response) => {
   //var userid: number =  parseInt(req.params.id);
   const users = await prisma.user.findUnique({
-    include: {
-      //post: true,
-      address:{
-        select: {
-          street:true,
-          suite:true,
-          city:true, 
-          zipcode:true,
-          geo:{
-            select:{
-              lat:true,
-              lng:true
-            }
-          }
-        }
-      },
-      company:true
-    },
     where: {
       id : Number(req.params.id),
     },
@@ -84,27 +49,22 @@ app.post("/users", async (req: Request, res: Response) => {
         username: req.body.username,
         email: req.body.email,
         address: {
-            create:{
-            street: req.body.street,
-            suite: req.body.suite,
-            city: req.body.city,
-            zipcode: req.body.zipcode,
-            geo: {
-                create:{
-                    lat: req.body.lat,
-                    lng: req.body.lng
-                }
-            }
-            }
+          street: req.body.street,
+          suite: req.body.suite,
+          city: req.body.city,
+          zipcode: req.body.zipcode,
+          geo: {
+            lat: req.body.lat,
+            lng: req.body.lng
+              
+          }
         },
         phone: req.body.phone,
         website: req.body.website,
         company: {
-            create:{
             name: req.body.companyName,
             catchPhrase: req.body.catchPhrase,
             bs: req.body.bs
-            }
         }
     }
   });
@@ -124,16 +84,6 @@ app.patch("/users/:id", async (req: Request, res: Response) => {
 app.delete("/users/:id", async (req: Request, res: Response) => {
   //console.log(req.body);
 
-  const deleteAddress = await prisma.address.delete({
-    where: {
-      userId: Number(req.params.id),
-    },
-  })
-  const deleteCompany = await prisma.company.delete({
-    where: {
-      userId: Number(req.params.id),
-    },
-  })
   const deleteUser = await prisma.user.delete({
     where: {
       id: Number(req.params.id),
@@ -146,24 +96,6 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
 app.get("/userFilter", async (req: Request, res: Response) => {
   const id = req.query.userId;
   const users = await prisma.user.findMany({
-    include: {
-      //post: true,
-      address:{
-        select: {
-          street:true,
-          suite:true,
-          city:true, 
-          zipcode:true,
-          geo:{
-            select:{
-              lat:true,
-              lng:true
-            }
-          }
-        }
-      },
-      company:true
-    },
     where: {
       id : Number(id),
     },

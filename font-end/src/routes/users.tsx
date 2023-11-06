@@ -62,7 +62,7 @@ export default function Users() {
     params: any, // GridRowParams
     event: any, // MuiEvent<React.MouseEvent<HTMLElement>>
   ) => {
-    console.log(params.row);
+    //console.log(params.row);
     setUserdetail(params.row);
    // console.log(usersdetail);
   };
@@ -106,7 +106,7 @@ export default function Users() {
   const handleClickDel = (e: any) => {
     const confirmDel = window.confirm(`Are you sure?`);
     if (confirmDel) {
-      console.log(usersdetail);
+      //console.log(usersdetail);
       axios
         .delete(`${import.meta.env.VITE_API_URL}/users/${usersdetail?.id}`)
         .then((response) => {
@@ -361,21 +361,21 @@ export default function Users() {
                     <ListItem>
                       <ListItemText
                         primary={`Campany : ${
-                          (usersdetail?.company && usersdetail?.company[0].name )?usersdetail?.company[0].name: ""
+                          (usersdetail?.company && usersdetail?.company.name )?usersdetail?.company.name: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`catchPhrase : ${
-                          (usersdetail?.company && usersdetail?.company[0].catchPhrase )?usersdetail?.company[0].catchPhrase: ""
+                          (usersdetail?.company && usersdetail?.company.catchPhrase )?usersdetail?.company.catchPhrase: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`bs : ${
-                          (usersdetail?.company && usersdetail?.company[0].bs )?usersdetail?.company[0].bs: ""
+                          (usersdetail?.company && usersdetail?.company.bs )?usersdetail?.company.bs: ""
                         }`}
                       />
                     </ListItem>
@@ -385,37 +385,37 @@ export default function Users() {
                     <ListItem>
                       <ListItemText
                         primary={`Street : ${
-                            (usersdetail?.address && usersdetail?.address[0].street )?usersdetail?.address[0].street: ""
+                            (usersdetail?.address && usersdetail?.address.street )?usersdetail?.address.street: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Suite : ${
-                            (usersdetail?.address && usersdetail?.address[0].suite )?usersdetail?.address[0].suite: ""
+                            (usersdetail?.address && usersdetail?.address.suite )?usersdetail?.address.suite: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem> 
                       <ListItemText
                         primary={`City : ${
-                          (usersdetail?.address && usersdetail?.address[0].city )?usersdetail?.address[0].city: ""
+                          (usersdetail?.address && usersdetail?.address.city )?usersdetail?.address.city: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Zipcode : ${
-                            (usersdetail?.address && usersdetail?.address[0].zipcode )?usersdetail?.address[0].zipcode: ""
+                            (usersdetail?.address && usersdetail?.address.zipcode )?usersdetail?.address.zipcode: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`location : ${
-                            (usersdetail?.address && usersdetail?.address[0].geo[0].lat )?usersdetail?.address[0].geo[0].lat: "-"
+                            (usersdetail?.address && usersdetail?.address.geo.lat )?usersdetail?.address.geo.lat: "-"
                         } , ${
-                            (usersdetail?.address && usersdetail?.address[0].geo[0].lng )?usersdetail?.address[0].geo[0].lng: "-"
+                            (usersdetail?.address && usersdetail?.address.geo.lng )?usersdetail?.address.geo.lng: "-"
                         }`}
                       />
                     </ListItem>

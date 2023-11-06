@@ -6,15 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-// datasource db {
-//   provider = "sqlserver"
-//   url      = env("DATABASE_URL")
-// }
-
 
 model User {
   id       Int      @id @default(autoincrement())
@@ -23,43 +17,15 @@ model User {
   email    String?
   phone    String?
   website  String?
-  address  Address[]
-  company  Company[]
+  address  Json
+  company  Json
   post Post[]
 }
 
 model Post {
   id      Int      @id @default(autoincrement())
-  title  String
-  body   String
+  title  String?
+  body   String?
   userId  Int?     
   user    User?     @relation(fields: [userId], references: [id])
-}
-
-model Address {
-  id      Int      @id @default(autoincrement())
-  street  String?
-  suite   String?
-  city    String?
-  zipcode String?
-  geo     Geo[]
-  userId  Int?      @unique
-  user    User?     @relation(fields: [userId], references: [id])
-}
-
-model Geo {
-  id     Int      @id @default(autoincrement())
-  lat    String?
-  lng    String?
-  addressId Int?   @unique
-  address   Address? @relation(fields: [addressId], references: [id])
-}
-
-model Company {
-  id            Int      @id @default(autoincrement())
-  name          String?
-  catchPhrase   String?
-  bs            String?
-  userId        Int?      @unique
-  user          User?     @relation(fields: [userId], references: [id])
 }
