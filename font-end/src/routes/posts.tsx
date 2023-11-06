@@ -61,8 +61,8 @@ const style2 = {//style for detail post modal
 };
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "title", headerName: "Title", width: 450 },
+  { field: "id", headerName: "ID", width: 100 , align:"center",headerAlign:"center"},
+  { field: "title", headerName: "Title", width: 500 },
   { field: "body", headerName: "Body", width: 500 },
 ];
 
@@ -99,7 +99,7 @@ interface User {
 export default function Posts() {
   const [posts, setPost] = useState<Post[]>([]);
   const [users, setUser] = useState<User[]>([]);
-  const [postsdetail, setPostdetail] = useState<PostDetail[]>([]);
+  const [postsdetail, setPostdetail] = useState<PostDetail | undefined>(undefined);
   const [addpost, addPost] = useState<addPost[]>([]);
   const [err, setError] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -183,15 +183,12 @@ export default function Posts() {
     const url = import.meta.env.VITE_API_URL + "/posts";
     e.preventDefault();
     axios
-      .post(
-        url,
-        { userId: addpost.userId, title: addpost.title, body: addpost.body },
+      .post(url,addpost,
         {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      )
+        })
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
     window.location.reload();
@@ -203,9 +200,9 @@ export default function Posts() {
     if (confirmDel) {
       console.log(postsdetail);
       axios
-        .delete(`${import.meta.env.VITE_API_URL}/posts/${postsdetail.id}`)
+        .delete(`${import.meta.env.VITE_API_URL}/posts/${postsdetail?.id}`)
         .then((response) => {
-          console.log(`Deleted post with ID ${postsdetail.id}`);
+          console.log(`Deleted post with ID ${postsdetail?.id}`);
           window.location.reload();
         })
         .catch((error) => {
@@ -227,6 +224,7 @@ export default function Posts() {
           Add Post
         </Button>
       </div>
+      <br/>
       <div>
         <Modal
           open={open}
@@ -304,7 +302,7 @@ export default function Posts() {
           </Box>
         </Modal>
       </div>
-      <div style={{ height: 650, width: "100%" }}>
+      <div style={{ width: "100%" }}>
         <DataGrid
           onRowClick={handleRowClick}
           rows={posts}
@@ -345,17 +343,17 @@ export default function Posts() {
               <ul>
                 <ListSubheader>Title</ListSubheader>
                 <ListItem>
-                  <ListItemText primary={`${postsdetail.title}`} />
+                  <ListItemText primary={`${postsdetail?.title}`} />
                 </ListItem>
                 <br />
                 <ListSubheader>Body</ListSubheader>
                 <ListItem>
-                  <ListItemText primary={`${postsdetail.body}`} />
+                  <ListItemText primary={`${postsdetail?.body}`} />
                 </ListItem>
                 <ListSubheader>Post by</ListSubheader>
                 <ListItem>
                   <ListItemText
-                    primary={`${postsdetail.user ? postsdetail.user.name : ""}`}
+                    primary={`${postsdetail?.user ? postsdetail?.user.name : ""}`}
                   />
                 </ListItem>
               </ul>

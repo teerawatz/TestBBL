@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRow, GridValueGetterParams } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -26,6 +26,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const style2 = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -40,79 +41,30 @@ const style2 = {
 };
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 100, align:"center",headerAlign:"center"},
   { field: "name", headerName: "Name", width: 300 },
-  { field: "username", headerName: "Username", width: 200 },
-  { field: "phone", headerName: "Phone", width: 250 },
+  { field: "username", headerName: "Username", width: 250 },
+  { field: "phone", headerName: "Phone", width: 300 },
+  { field: "email", headerName: "Email", width: 300 },
 ];
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  phone: string;
-  email: string;
-  website: string;
-  address: any;
-  company: any;
-}
-interface Usersdetail {
-  id: number;
-  name: string | undefined;
-  username: string;
-  phone: string;
-  email: string;
-  website: string;
-  address: any;
-  company: any;
-}
-interface addUser {
-  name: string;
-  username: string;
-  phone: string;
-  email: string;
-  website: string;
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  lat: string;
-  lng: string;
-  companyName: string;
-  catchPhrase: string;
-  bs: string;
-}
-
-// const [users,setUser] = useState<User[]>([])
-// const [err,setError] = useState([])
-//useEffect(() => {
-
-//.then(res => setUser(res))
-//. catch(err => setError(err))
-//}, [])
-// console.log(users);
-// console.log(err);
 
 export default function Users() {
   const [users, setUser] = useState<User[]>([]);
-  const [usersdetail, setUserdetail] = useState<Usersdetail[]>([]);
+  const [usersdetail, setUserdetail] = useState<Usersdetail | undefined>(undefined);
   const [adduser, addUser] = useState<addUser[]>([]);
   const [err, setError] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleOpen2 = () => setOpen2(true);
-  const handleClose2 = () => setOpen2(false);
   const navigate = useNavigate();
   const handleRowClick = (
     params: any, // GridRowParams
-    event: any // MuiEvent<React.MouseEvent<HTMLElement>>
+    event: any, // MuiEvent<React.MouseEvent<HTMLElement>>
   ) => {
-    //console.log(params.row);
+    console.log(params.row);
     setUserdetail(params.row);
-    console.log(usersdetail);
-    handleOpen2();
+   // console.log(usersdetail);
   };
 
   const getData = async () => {
@@ -138,10 +90,11 @@ export default function Users() {
     const url = import.meta.env.VITE_API_URL + "/users";
     e.preventDefault();
     axios
-      .post(url, adduser, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      .post(url, adduser, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
       })
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
@@ -155,9 +108,9 @@ export default function Users() {
     if (confirmDel) {
       console.log(usersdetail);
       axios
-        .delete(`${import.meta.env.VITE_API_URL}/users/${usersdetail.id}`)
+        .delete(`${import.meta.env.VITE_API_URL}/users/${usersdetail?.id}`)
         .then((response) => {
-          console.log(`Deleted post with ID ${usersdetail.id}`);
+          console.log(`Deleted post with ID ${usersdetail?.id}`);
           window.location.reload();
         })
         .catch((error) => {
@@ -179,6 +132,7 @@ export default function Users() {
           Add user
         </Button>
       </div>
+      <br/>
       <div>
         <Modal
           open={open}
@@ -331,7 +285,7 @@ export default function Users() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Button variant="outlined" color="error" onClick={handleClose}>
+                <Button variant="contained" color="primary" onClick={handleClose}>
                   close
                 </Button>
                 <Button variant="contained" color="success" type="submit">
@@ -342,7 +296,7 @@ export default function Users() {
           </Box>
         </Modal>
       </div>
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{  width: "100%" }}>
         <DataGrid
           onRowClick={handleRowClick}
           rows={users}
@@ -361,8 +315,8 @@ export default function Users() {
         />
       </div>
       <Modal
-        open={open2}
-        onClose={handleClose2}
+        open={usersdetail!=undefined}
+        onClose={() => setUserdetail(undefined)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -385,45 +339,43 @@ export default function Users() {
                   <Grid item xs={12} md={6}>
                     <ListSubheader>User</ListSubheader>
                     <ListItem>
-                      <ListItemText primary={`Name : ${usersdetail.name}`} />
+                      <ListItemText primary={`Name : ${usersdetail?.name??""}`} />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`Username : ${usersdetail.username}`}
+                        primary={`Username : ${usersdetail?.username??""}`}
                       />
                     </ListItem>
                     <ListSubheader>Contact</ListSubheader>
                     <ListItem>
-                      <ListItemText primary={`Email : ${usersdetail.email}`} />
+                      <ListItemText primary={`Email : ${usersdetail?.email??""}`} />
                     </ListItem>
                     <ListItem>
-                      <ListItemText primary={`Phone : ${usersdetail.phone}`} />
+                      <ListItemText primary={`Phone : ${usersdetail?.phone??""}`} />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`Website : ${usersdetail.website}`}
+                        primary={`Website : ${usersdetail?.website??""}`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Campany : ${
-                          usersdetail.company ? usersdetail.company[0].name : ""
+                          (usersdetail?.company && usersdetail?.company[0].name )?usersdetail?.company[0].name: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`catchPhrase : ${
-                          usersdetail.company
-                            ? usersdetail.company[0].catchPhrase
-                            : ""
+                          (usersdetail?.company && usersdetail?.company[0].catchPhrase )?usersdetail?.company[0].catchPhrase: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`bs : ${
-                          usersdetail.company ? usersdetail.company[0].bs : ""
+                          (usersdetail?.company && usersdetail?.company[0].bs )?usersdetail?.company[0].bs: ""
                         }`}
                       />
                     </ListItem>
@@ -433,47 +385,37 @@ export default function Users() {
                     <ListItem>
                       <ListItemText
                         primary={`Street : ${
-                          usersdetail.address
-                            ? usersdetail.address[0].street
-                            : ""
+                            (usersdetail?.address && usersdetail?.address[0].street )?usersdetail?.address[0].street: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Suite : ${
-                          usersdetail.address
-                            ? usersdetail.address[0].suite
-                            : ""
+                            (usersdetail?.address && usersdetail?.address[0].suite )?usersdetail?.address[0].suite: ""
                         }`}
                       />
                     </ListItem>
-                    <ListItem>
+                    <ListItem> 
                       <ListItemText
                         primary={`City : ${
-                          usersdetail.address ? usersdetail.address[0].city : ""
+                          (usersdetail?.address && usersdetail?.address[0].city )?usersdetail?.address[0].city: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Zipcode : ${
-                          usersdetail.address
-                            ? usersdetail.address[0].zipcode
-                            : ""
+                            (usersdetail?.address && usersdetail?.address[0].zipcode )?usersdetail?.address[0].zipcode: ""
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`location : ${
-                          usersdetail.address
-                            ? usersdetail.address[0].geo[0].lat
-                            : ""
+                            (usersdetail?.address && usersdetail?.address[0].geo[0].lat )?usersdetail?.address[0].geo[0].lat: "-"
                         } , ${
-                          usersdetail.address
-                            ? usersdetail.address[0].geo[0].lng
-                            : ""
+                            (usersdetail?.address && usersdetail?.address[0].geo[0].lng )?usersdetail?.address[0].geo[0].lng: "-"
                         }`}
                       />
                     </ListItem>
@@ -492,7 +434,7 @@ export default function Users() {
             <Button variant="contained" color="error" onClick={handleClickDel}>
               Delete
             </Button>
-            <Button variant="contained" color="primary" onClick={handleClose2}>
+            <Button variant="contained" color="primary" onClick={() => setUserdetail(undefined)}>
               close
             </Button>
           </Box>
