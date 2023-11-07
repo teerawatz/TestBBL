@@ -24,8 +24,8 @@ model User {
 
 model Post {
   id      Int      @id @default(autoincrement())
-  title  String?
-  body   String?
+  title  String? @db.VarChar(255)
+  body   String? @db.VarChar(255)
   userId  Int?     
   user    User?     @relation(fields: [userId], references: [id])
 }
