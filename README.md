@@ -40,6 +40,7 @@ start back-end server
 ```
 npm run dev
 ```
+back-end server run at http://localhost:3000/
 
 7.Setup font-end 
 ```
