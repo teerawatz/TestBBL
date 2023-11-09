@@ -1,7 +1,7 @@
 # TestBBL
 Setup Test
 
-1.Install nodejs and docker
+1.Install nodejs latest version and docker
 
 2.Clone project
 ```
