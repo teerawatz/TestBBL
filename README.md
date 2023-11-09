@@ -12,8 +12,6 @@ git clone https://github.com/teerawatz/TestBBL.git
 ```
 cd back-end
 npm install
-```
-```
 npm install nodemon
 ```
 
