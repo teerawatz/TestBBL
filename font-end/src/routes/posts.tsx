@@ -103,11 +103,11 @@ export default function Posts() {
   const [addpost, addPost] = useState<addPost[]>([]);
   const [err, setError] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
+  const [open2, setOpenDetail] = React.useState(false);
   const handleOpen = () => setOpen(true);//open add post modal
   const handleClose = () => setOpen(false);
-  const handleOpen2 = () => setOpen2(true);//open detail post modal
-  const handleClose2 = () => setOpen2(false);
+  const handleOpenDetail = () => setOpenDetail(true);//open detail post modal
+  const handleCloseDetail = () => setOpenDetail(false);
   const navigate = useNavigate();
   const [usersel, setUserSel] = React.useState("");
 
@@ -137,7 +137,7 @@ export default function Posts() {
         console.log(error.message);
       });
     //console.log(postsdetail);
-    handleOpen2();
+    handleOpenDetail();
   };
 
   //get data posts
@@ -316,13 +316,13 @@ export default function Posts() {
           // onRowSelectionModelChange={(newSelectionModel: any) => {
 
           //   console.log(newSelectionModel)
-          //   handleOpen2();
+          //   handleOpenDetail();
           // }}
         />
       </div>
       <Modal
         open={open2}
-        onClose={handleClose2}
+        onClose={handleCloseDetail}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -369,7 +369,7 @@ export default function Posts() {
             <Button variant="contained" color="error" onClick={handleClickDel}>
               Delete
             </Button>
-            <Button variant="contained" color="primary" onClick={handleClose2}>
+            <Button variant="contained" color="primary" onClick={handleCloseDetail}>
               close
             </Button>
           </Box>

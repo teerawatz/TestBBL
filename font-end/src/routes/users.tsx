@@ -42,8 +42,8 @@ const style2 = {
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100, align:"center",headerAlign:"center"},
-  { field: "name", headerName: "Name", width: 300 },
-  { field: "username", headerName: "Username", width: 250 },
+  { field: "name", headerName: "Name", width: 250 },
+  { field: "username", headerName: "Username", width: 200 },
   { field: "phone", headerName: "Phone", width: 300 },
   { field: "email", headerName: "Email", width: 300 },
 ];
