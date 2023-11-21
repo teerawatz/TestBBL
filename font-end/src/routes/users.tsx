@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DataGrid, GridColDef, GridRow, GridValueGetterParams } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
@@ -53,11 +53,11 @@ export default function Users() {
   const [users, setUser] = useState<User[]>([]);
   const [usersdetail, setUserdetail] = useState<Usersdetail | undefined>(undefined);
   const [adduser, addUser] = useState<addUser[]>([]);
-  const [err, setError] = useState([]);
+  //const [err, setError] = useState([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const handleRowClick = (
     params: any, // GridRowParams
     event: any, // MuiEvent<React.MouseEvent<HTMLElement>>

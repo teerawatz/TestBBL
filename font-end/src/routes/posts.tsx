@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
@@ -101,14 +101,14 @@ export default function Posts() {
   const [users, setUser] = useState<User[]>([]);
   const [postsdetail, setPostdetail] = useState<PostDetail | undefined>(undefined);
   const [addpost, addPost] = useState<addPost[]>([]);
-  const [err, setError] = useState([]);
+  //const [err, setError] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [open2, setOpenDetail] = React.useState(false);
   const handleOpen = () => setOpen(true);//open add post modal
   const handleClose = () => setOpen(false);
   const handleOpenDetail = () => setOpenDetail(true);//open detail post modal
   const handleCloseDetail = () => setOpenDetail(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [usersel, setUserSel] = React.useState("");
 
   //select user handle
