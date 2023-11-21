@@ -71,6 +71,16 @@ app.post("/users", async (req: Request, res: Response) => {
   res.json(user);
 }); 
 
+app.put("/users/:id", async (req: Request, res: Response) => {
+  //console.log(req.body);
+
+  const user = await prisma.user.update({
+    where: { id: Number(req.params.id) },
+    data: req.body,
+  })
+  res.json(user);
+});
+
 app.patch("/users/:id", async (req: Request, res: Response) => {
   //console.log(req.body);
 
